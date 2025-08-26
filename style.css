@@ -1,0 +1,11 @@
+
+.boton-redireccion{
+ background-color: brown;
+ border: none;
+ color: aliceblue;
+padding: 10px 15px;
+text-decoration: none;
+font-size: 0.8rem;
+border-radius: 15px;
+font-family: sans-serif;
+}

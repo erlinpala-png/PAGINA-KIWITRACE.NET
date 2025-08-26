@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Kiwitrace - Bienvenido</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Animaciones generales */
+    @keyframes fadeIn { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:translateY(0);} }
+    @keyframes backgroundPulse { 0%{filter:brightness(1);} 50%{filter:brightness(1.05);} 100%{filter:brightness(1);} }
+
+    /* Reset y estilo del body */
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-image: url('https://www.newzealand.com/assets/Tourism-NZ/Wairarapa/2-kiwi-siblings__ExtRewriteWyJqcGciLCJ3ZWJwIl0_aWxvdmVrZWxseQo_FocalPointCropWzQ0MCwxMjgwLDQwLDY1LDc1LCJ3ZWJwIiw2NSwyLjVd.webp');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: white;
+      animation: backgroundPulse 10s ease-in-out infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;  /* 👈 centra horizontal */
+      min-height: 100vh;
+      position: relative;
+      padding-top: 120px;   /* deja espacio para opciones superiores */
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 0;
+    }
+
+    .contenido {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto 40px;  /* 👈 centrado horizontal */
+      padding: 45px;
+      background-color: rgba(255, 255, 255, 0.07);
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      animation: fadeIn 1.2s ease forwards;
+      opacity: 0;
+    }
+
+    h1 {
+      font-size: 38px;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+      transition: transform 0.3s ease;
+    }
+    h1:hover { transform: scale(1.03); }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .boton-redireccion {
+      padding: 12px 25px;
+      margin: 10px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .boton-redireccion:hover {
+      background-color: #388E3C;
+      transform: scale(1.05);
+    }
+
+    /* Segmento de opciones superior estilo gráfico */
+    .opciones-superior {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 800px;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .opcion {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 15px 20px;
+      border-radius: 10px;
+      text-align: center;
+      flex: 1;
+      margin: 0 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .opcion:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    .opcion h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #ffe082;
+    }
+    .opcion p {
+      margin: 5px 0 0;
+      font-size: 14px;
+    }
+
+    /* Carrusel de anuncios estilo BancoEstado */
+    .carrusel { 
+      margin-bottom: 30px; 
+      overflow: hidden; 
+      border-radius: 10px; 
+      position: relative;
+    }
+    .carrusel-inner {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .anuncio {
+      min-width: 100%;
+      box-sizing: border-box;
+      padding: 20px;
+      background-color: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      border-radius: 10px;
+    }
+    .anuncio img {
+      width: 120px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-right: 20px;
+    }
+    .anuncio-texto {
+      text-align: left;
+      flex: 1;
+    }
+    .anuncio-texto h3 {
+      margin: 0 0 5px;
+      font-size: 20px;
+      color: #ffe082;
+    }
+    .anuncio-texto p {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+    .anuncio-texto a {
+      color: #4CAF50;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .carrusel-control {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0,0,0,0.3);
+      border: none;
+      color: white;
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 2;
+    }
+    .control-prev { left: 10px; }
+    .control-next { right: 10px; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .opciones-superior { flex-direction: column; top: 10px; }
+      .opcion { margin: 5px 0; }
+      .anuncio { flex-direction: column; text-align: center; }
+      .anuncio img { margin: 0 0 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <!-- Segmento superior de opciones -->
+  <div class="opciones-superior">
+    <div class="opcion">
+      <h3>Inicio</h3>
+      <p>Resumen rápido</p>
+    </div>
+    <div class="opcion">
+      <h3>Promociones</h3>
+      <p>Últimas novedades</p>
+    </div>
+    <div class="opcion">
+      <h3>Seguridad</h3>
+      <p>Consejos y alertas</p>
+    </div>
+    <div class="opcion">
+      <h3>Contacto</h3>
+      <p>Ayuda al instante</p>
+    </div>
+  </div>
+
+  <div class="contenido">
+    <!-- Carrusel de anuncios -->
+    <div class="carrusel">
+      <div class="carrusel-inner" id="carruselInner">
+        <div class="anuncio">
+          <img src="https://via.placeholder.com/120x80.png?text=Premium" alt="Premium">
+          <div class="anuncio-texto">
+            <h3>Nuevo Plan Premium</h3>
+            <p>Accede a funcionalidades avanzadas para una mejor experiencia.</p>
+            <a href="#">Más información</a>
+          </div>
+        </div>
+        <div class="anuncio">
+          <img src="https://via.placeholder.com/120x80.png?text=App" alt="App">
+          <div class="anuncio-texto">
+            <h3>¡Descarga nuestra App!</h3>
+            <p>Gestiona tu vehículo desde tu celular de forma sencilla.</p>
+            <a href="#">Descargar</a>
+          </div>
+        </div>
+        <div class="anuncio">
+          <img src="https://via.placeholder.com/120x80.png?text=Alerta" alt="Alerta">
+          <div class="anuncio-texto">
+            <h3>Alertas en tiempo real</h3>
+            <p>Recibe notificaciones al instante ante movimientos sospechosos.</p>
+            <a href="#">Infórmate</a>
+          </div>
+        </div>
+      </div>
+      <button class="carrusel-control control-prev" onclick="moverCarrusel(-1)">‹</button>
+      <button class="carrusel-control control-next" onclick="moverCarrusel(1)">›</button>
+    </div>
+
+    <!-- Contenido principal -->
+    <h1>Bienvenido a KiwiTrace</h1>
+    <p>
+      Rastrea, protege y localiza tus dispositivos en tiempo real. Inicia sesión o regístrate para comenzar.
+    </p>
+    <p>
+      En KiwiTrace colaboramos con autoridades para recuperar vehículos robados rápidamente. Monitoreo en tiempo real y alertas instantáneas ante movimientos sospechosos. Tu seguridad es nuestra prioridad.
+    </p>
+    <button type="button" class="boton-redireccion" onclick="window.location.href='carga iniciar de mi.html'">Iniciar sesión</button>
+    <button type="button" class="boton-redireccion" onclick="window.location.href='carga de registro de mi.html'">Registrarse</button>
+  </div>
+
+  <script>
+    // Lógica del carrusel
+    const carruselInner = document.getElementById('carruselInner');
+    let indice = 0;
+    const total = carruselInner.children.length;
+
+    function actualizarCarrusel() {
+      carruselInner.style.transform = 'translateX(' + (-indice * 100) + '%)';
+    }
+
+    function moverCarrusel(signo) {
+      indice = (indice + signo + total) % total;
+      actualizarCarrusel();
+    }
+
+    setInterval(() => moverCarrusel(1), 5000);
+  </script>
+</body>
+</html>

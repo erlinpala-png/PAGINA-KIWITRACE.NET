@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mapa GPS - Kiwitrace</title>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuKUkh_JzoXjDY3-Em4d_srWlgfpmaSQw"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 60px;
+      color: white;
+      position: relative;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/TeTuatahianui.jpg/500px-TeTuatahianui.jpg'); /* Kiwi en naturaleza */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    /* Overlay verde semitransparente para dar tono */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(20, 50, 20, 0.6);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      padding: 40px 20px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    header h1 {
+      font-size: 40px;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 5px #155214;
+      color: #C8E6C9;
+    }
+
+    #mapa {
+      height: 500px;
+      width: 90%;
+      max-width: 1000px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 80, 0, 0.7);
+      margin: 30px 0;
+      position: relative;
+      z-index: 2; /* MÁS ARRIBA QUE EL OVERLAY */
+    }
+
+    .descripcion {
+      max-width: 900px;
+      text-align: center;
+      padding: 20px;
+      line-height: 1.6;
+      font-size: 18px;
+      color: #B2D8B2;
+      text-shadow: 0 0 5px rgba(0, 50, 0, 0.7);
+      position: relative;
+      z-index: 2;
+    }
+
+    .tarjetas {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 30px;
+      max-width: 1000px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .tarjeta {
+      background-color: rgba(34, 70, 34, 0.7);
+      backdrop-filter: blur(6px);
+      border-radius: 12px;
+      padding: 20px;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 40, 0, 0.6);
+      transition: transform 0.3s ease;
+      color: #D0F0C0;
+    }
+
+    .tarjeta:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(50, 150, 50, 0.9);
+    }
+
+    .tarjeta img {
+      width: 60px;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 2px #0a300a);
+    }
+
+    .tarjeta h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #A4D492;
+    }
+
+    .tarjeta p {
+      font-size: 15px;
+      color: #C9E5B8;
+    }
+
+    .boton-volver {
+      padding: 14px 30px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 80, 0, 0.7);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+    }
+
+    .boton-volver:hover {
+      background-color: #388E3C;
+      transform: scale(1.05);
+    }
+
+    /* Estilo para la sección del historial */
+    .historial-gps {
+      margin-top: 60px;
+      width: 90%;
+      max-width: 1000px;
+      background-color: rgba(20, 50, 20, 0.7);
+      backdrop-filter: blur(6px);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 40, 0, 0.7);
+      color: #C9E5B8;
+      position: relative;
+      z-index: 2;
+    }
+
+    .historial-gps h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #A4D492;
+      text-shadow: 0 0 6px #1b3a10;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: inherit;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(200, 230, 180, 0.4);
+      text-align: center;
+    }
+
+    th {
+      background-color: rgba(34, 70, 34, 0.9);
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background-color: rgba(50, 100, 50, 0.6);
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 28px;
+      }
+
+      .tarjeta {
+        width: 90%;
+      }
+
+      th, td {
+        font-size: 14px;
+        padding: 8px;
+      }
+    }
+  </style>
+
+  <script>
+    function initMap() {
+      const ubicacion = { lat: -33.4489, lng: -70.6693 }; // Santiago
+      const map = new google.maps.Map(document.getElementById("mapa"), {
+        zoom: 14,
+        center: ubicacion,
+      });
+      const marker = new google.maps.Marker({
+        position: ubicacion,
+        map: map,
+        title: "Ubicación del vehículo",
+      });
+    }
+  </script>
+</head>
+
+<body onload="initMap()">
+  <button class="boton-volver" onclick="window.location.href='cargar inicio.html'">Volver al Inicio</button>
+
+  <header>
+    <h1>Ubicación del Vehículo en Tiempo Real</h1>
+    <p class="descripcion">
+      Utilizamos tecnología GPS avanzada para rastrear tu vehículo con precisión. En este mapa puedes visualizar su ubicación actual y actualizar el estado en tiempo real.
+    </p>
+  </header>
+
+  <div id="mapa"></div>
+
+  <div class="tarjetas">
+    <div class="tarjeta">
+      <img src="https://img.icons8.com/ios-filled/100/ffffff/map.png" alt="Mapa interactivo" />
+      <h3>Mapa interactivo</h3>
+      <p>Puedes acercar, alejar o mover el mapa para ver con más detalle la ubicación de tu vehículo.</p>
+    </div>
+
+    <div class="tarjeta">
+      <img src="https://img.icons8.com/ios-filled/100/ffffff/location.png" alt="Precisión GPS" />
+      <h3>Precisión GPS</h3>
+      <p>El sistema utiliza coordenadas GPS en tiempo real para marcar la posición exacta del vehículo.</p>
+    </div>
+
+    <div class="tarjeta">
+      <img src="https://img.icons8.com/ios-filled/100/ffffff/refresh.png" alt="Actualización continua" />
+      <h3>Actualización continua</h3>
+      <p>Los datos se actualizan automáticamente para que siempre tengas información confiable al instante.</p>
+    </div>
+  </div>
+
+  <div class="historial-gps">
+    <h2>Historial de Ubicación (cada 9 horas)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Latitud</th>
+          <th>Longitud</th>
+          <th>Ubicación Aproximada</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2025-08-12</td>
+          <td>00:00</td>
+          <td>-33.4489</td>
+          <td>-70.6693</td>
+          <td>Santiago Centro</td>
+        </tr>
+        <tr>
+          <td>2025-08-11</td>
+          <td>15:00</td>
+          <td>-33.4512</td>
+          <td>-70.6650</td>
+          <td>Providencia</td>
+        </tr>
+        <tr>
+          <td>2025-08-11</td>
+          <td>06:00</td>
+          <td>-33.4598</td>
+          <td>-70.6401</td>
+          <td>La Florida</td>
+        </tr>
+        <tr>
+          <td>2025-08-10</td>
+          <td>21:00</td>
+          <td>-33.4720</td>
+          <td>-70.6163</td>
+          <td>Maipú</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
+

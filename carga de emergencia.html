@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pantalla de carga</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to bottom right, #e8f5e9, #a5d6a7); /* Fondo suave */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .contenedor {
+      text-align: center;
+      animation: popIn 0.6s ease-in-out;
+    }
+
+    img {
+      width: 220px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 8px rgba(0,0,0,0.2));
+    }
+
+    h2 {
+      color: #2e7d32;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <img src="https://media1.tenor.com/m/Mbx9UWDxwIEAAAAd/kiwi-kiwi-bird.gif" alt="Cargando..." />
+    <h2>Redirigiendo a Emergencia...</h2>
+  </div>
+
+  <script>
+    // Después de 3 segundos redirige a la página de emergencia
+    setTimeout(() => {
+      window.location.href = 'Emergencia.html'; // ✅ Asegúrate que esta ruta exista
+    }, 3000);
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kiwitrace - Registro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      background-image: url('https://sp-ao.shortpixel.ai/client/to_webp,q_lossy,ret_img,w_759/https://www.kiaoratravellers.com/wp-content/uploads/2020/09/newZealandKiwiBird.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      color: #e2dcdc;
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0,0,0,0.6);
+      z-index: 0;
+    }
+    img {
+      width: 140px;
+      margin-bottom: 15px;
+      z-index: 1;
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(0,0,0,0.7);
+      background-color: rgba(255,255,255,0.3);
+      padding: 8px;
+    }
+    h1 {
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 32px;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.8);
+      z-index: 1;
+    }
+    .form-container {
+      background-color: rgba(20, 20, 20, 0.8);
+      padding: 30px 35px;
+      border-radius: 15px;
+      width: 320px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+      z-index: 1;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #ddd;
+    }
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="date"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+      outline: none;
+      transition: box-shadow 0.3s ease;
+    }
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    input[type="email"]:focus,
+    input[type="date"]:focus,
+    input[type="password"]:focus {
+      box-shadow: 0 0 8px 2px #4CAF50;
+      background-color: #222;
+      color: #fff;
+    }
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 14px 0;
+      font-size: 18px;
+      font-weight: 700;
+      border-radius: 10px;
+      width: 100%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    input[type="submit"]:hover {
+      background-color: #388E3C;
+    }
+    .boton-redireccion {
+      display: block;
+      margin: 20px auto 0 auto;
+      width: 100%;
+      padding: 14px 0;
+      background-color: #2e7d32;
+      color: white;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-align: center;
+    }
+    .boton-redireccion:hover {
+      background-color: #1b4d20;
+    }
+  </style>
+</head>
+<body>
+  <img src="https://media.minutouno.com/p/1a822c9aeea2d467208cffdbe5db614c/adjuntos/150/imagenes/026/292/0026292781/610x0/smart/kiwi-albino-1.png" alt="Kiwitrace Logo" />
+  <h1>Bienvenidos a Kiwitrace</h1>
+
+  <div class="form-container">
+    <form id="registroForm">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+
+      <label for="apellido">Apellido:</label>
+      <input type="text" id="apellido" name="apellido" placeholder="Tu apellido" required>
+
+      <label for="telefono">Teléfono:</label>
+      <input type="tel" id="telefono" name="telefono" placeholder="+56 9 1234 5678" required>
+
+      <label for="correo">Correo electrónico:</label>
+      <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com" required>
+
+      <label for="fecha">Fecha de nacimiento:</label>
+      <input type="date" id="fecha" name="fecha" required>
+
+      <label for="contrasena">Contraseña:</label>
+      <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+
+      <input type="submit" value="Registrar">
+    </form>
+
+    <button type="button" class="boton-redireccion" onclick="window.location.href='carga volver.html'">
+      Volver
+    </button>
+  </div>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('registroForm');
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const submitButton = form.querySelector('input[type="submit"]');
+    submitButton.value = 'Procesando...';
+    submitButton.disabled = true;
+
+    const formData = {
+      nombre: document.getElementById('nombre').value,
+      apellido: document.getElementById('apellido').value,
+      telefono: document.getElementById('telefono').value,
+      correo: document.getElementById('correo').value,
+      fecha: document.getElementById('fecha').value,
+      contrasena: document.getElementById('contrasena').value,
+      usuario: document.getElementById('correo').value
+    };
+
+    try {
+      const response = await fetch('http://127.0.0.1:3000/datos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      let data;
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        data = { mensaje: await response.text(), success: false };
+      }
+
+      if (response.status === 409) {
+        alert('Este correo ya está registrado. Usa otro correo.');
+      } else if (data.success) {
+        alert(data.mensaje || 'Registro exitoso. Revisa tu correo para confirmar.');
+        form.reset();
+      } else {
+        alert(data.mensaje || 'Error al registrar. Intenta nuevamente.');
+      }
+    } catch (error) {
+      alert('Error de conexión con el servidor.');
+    } finally {
+      submitButton.value = 'Registrar';
+      submitButton.disabled = false;
+    }
+  });
+});
+</script>
+</body>
+</html>

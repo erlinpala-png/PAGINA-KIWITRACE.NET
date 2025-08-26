@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Suscripciones y Planes - Kiwitrace</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 0; padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #4caf50;
+    }
+    .plan {
+      background: rgba(76, 175, 80, 0.1);
+      border: 2px solid #4caf50;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      width: 320px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .plan:hover {
+      transform: translateY(-5px);
+      background: rgba(76, 175, 80, 0.2);
+    }
+    .plan h2 {
+      margin-bottom: 10px;
+      color: #a5d6a7;
+    }
+    .plan p {
+      font-size: 16px;
+      line-height: 1.4;
+    }
+    button.boton-volver {
+      margin-top: 30px;
+      padding: 12px 28px;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    button.boton-volver:hover {
+      background-color: #388E3C;
+      transform: scale(1.05);
+    }
+
+    /* Contenedor modal para GIF a pantalla completa */
+    #modalGif {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    #modalGif.show {
+      visibility: visible;
+      opacity: 1;
+    }
+    #modalGif img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 20px;
+      box-shadow: 0 0 30px #4caf50;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Suscripciones y Planes Mensuales</h1>
+  
+  <div class="plan" onclick="mostrarGifPantallaCompleta()">
+    <h2>Plan Básico</h2>
+    <p>Acceso a rastreo básico y alertas limitadas.<br>Precio: $5 USD/mes</p>
+  </div>
+
+  <div class="plan" onclick="mostrarGifPantallaCompleta()">
+    <h2>Plan Premium</h2>
+    <p>Rastreo en tiempo real y alertas prioritarias.<br>Precio: $12 USD/mes</p>
+  </div>
+
+  <div class="plan" onclick="mostrarGifPantallaCompleta()">
+    <h2>Plan Corporativo</h2>
+    <p>Soluciones avanzadas para flotas y empresas.<br>Precio: Contactar</p>
+  </div>
+
+  <button class="boton-volver" onclick="window.location.href='cargar inicio.html'">⬅ Volver al Inicio</button>
+
+  <!-- Contenedor modal para el GIF -->
+  <div id="modalGif" onclick="cerrarModal()">
+    <img id="gifGrande" src="" alt="Celebración" />
+  </div>
+
+  <script>
+    const gifs = [
+      "https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif",
+      "https://media.giphy.com/media/l0HlMjsuUU5xrhGe4/giphy.gif",
+      "https://media.giphy.com/media/3o7TKQ2vLAmjC/giphy.gif",
+      "https://media.giphy.com/media/26FPKs4bjsi0FzrTG/giphy.gif",
+      "https://media.giphy.com/media/xT4uQulxzV39haRFjG/giphy.gif"
+    ];
+
+    function mostrarGifPantallaCompleta() {
+      const randomIndex = Math.floor(Math.random() * gifs.length);
+      const modal = document.getElementById('modalGif');
+      const gif = document.getElementById('gifGrande');
+      gif.src = gifs[randomIndex];
+      modal.classList.add('show');
+      // Evitar scroll mientras está abierto
+      document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarModal() {
+      const modal = document.getElementById('modalGif');
+      modal.classList.remove('show');
+      // Restaurar scroll
+      document.body.style.overflow = '';
+    }
+
+    // Para que no se cierre si se hace click en la imagen
+    document.getElementById('gifGrande').addEventListener('click', function(event) {
+      event.stopPropagation();
+    });
+  </script>
+</body>
+</html>
+

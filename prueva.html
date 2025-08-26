@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificación Humana</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    .box {
+      border: 1px solid #ccc;
+      display: inline-block;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 3px 8px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h2>Verificación</h2>
+    <label>
+      <input type="checkbox" id="robotCheck">
+      No soy un robot
+    </label>
+    <br><br>
+    <button onclick="verificar()">Continuar</button>
+  </div>
+
+  <p id="mensaje"></p>
+
+  <script>
+    function verificar() {
+      let check = document.getElementById("robotCheck");
+      let mensaje = document.getElementById("mensaje");
+
+      if (check.checked) {
+        mensaje.innerHTML = "✅ Verificación completada. Bienvenido!";
+        mensaje.style.color = "green";
+      } else {
+        mensaje.innerHTML = "❌ Por favor confirma que no eres un robot.";
+        mensaje.style.color = "red";
+      }
+    }
+  </script>
+
+</body>
+</html>
